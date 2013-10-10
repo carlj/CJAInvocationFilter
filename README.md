@@ -1,4 +1,8 @@
 #CJAInvocation
+The category adapts the before and after filter concept from Rails 
+
+[![Build Status](https://travis-ci.org/carlj/CJAInvocation.png?branch=master)](https://travis-ci.org/carlj/CJAInvocation)
+[![Coverage Status](https://coveralls.io/repos/carlj/CJAInvocation/badge.png?branch=master)](https://coveralls.io/r/carlj/CJAInvocation?branch=master)
 
 ##Installation
 Just drag & drop the [`CJAInvocation.h`](CJAInvocation/CJAInvocation.h) and [`CJAInvocation.m`](CJAInvocation/CJAInvocation.m) to your project.
@@ -7,6 +11,48 @@ Just drag & drop the [`CJAInvocation.h`](CJAInvocation/CJAInvocation.h) and [`CJ
 First of all take a look at the [Example Project](Example/Classes/ExampleViewController.m)
 
 ##Usage
+``` objc
+...
+#import "NSObject+Invocation.h"
+...
+...
+//Create a custom class
+@interface TestObject : NSObject
+
+- (void)doSomething;
+
+@end
+
+@implementation TestObject
+
+- (void)doSomething {
+  NSLog(@"%s", __FUNCTION__);
+}
+
+@end
+...
+...
+
+TestObject *object = [TestObject new];
+
+//add the filters to the proxy object
+[self.object.proxy setBeforeFilter: ^(NSObject *object){
+	NSLog(@"before filter");
+}
+                       forSelector: @selector(doSomething)];
+
+[self.object.proxy setAfterFilter: ^(NSObject *object){
+	NSLog(@"after filter");
+}
+                      forSelector: @selector(doSomething)];
+
+
+//call the original method on the proxy
+[self.object.proxy doSomething];
+``
+
+##Note
+You cannot use default methods from the classes e.g. description.
 
 ##LICENSE
 Released under the [MIT LICENSE](LICENSE)
