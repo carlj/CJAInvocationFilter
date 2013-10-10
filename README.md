@@ -12,11 +12,12 @@ First of all take a look at the [Example Project](Example/Classes/ExampleViewCon
 
 ##Usage
 ``` objc
-...
+//import the category
 #import "NSObject+Invocation.h"
-...
-...
-//Create a custom class
+```
+
+``` objc
+//Create or use your custom class
 @interface TestObject : NSObject
 
 - (void)doSomething;
@@ -30,9 +31,9 @@ First of all take a look at the [Example Project](Example/Classes/ExampleViewCon
 }
 
 @end
-...
-...
+```
 
+``` objc
 TestObject *object = [TestObject new];
 
 //add the filters to the proxy object
@@ -49,7 +50,7 @@ TestObject *object = [TestObject new];
 
 //call the original method on the proxy
 [self.object.proxy doSomething];
-``
+```
 
 ##Note
 You cannot use default methods from the classes e.g. description.
