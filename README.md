@@ -1,5 +1,5 @@
 #CJAInvocation
-The category adapts the before and after filter concept from Rails 
+The category adapts the [before and after filter concept from Rails](http://guides.rubyonrails.org/action_controller_overview.html#filters). 
 
 [![Build Status](https://travis-ci.org/carlj/CJAInvocation.png?branch=master)](https://travis-ci.org/carlj/CJAInvocation)
 [![Coverage Status](https://coveralls.io/repos/carlj/CJAInvocation/badge.png?branch=master)](https://coveralls.io/r/carlj/CJAInvocation?branch=master)
