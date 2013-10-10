@@ -19,8 +19,6 @@ typedef void(^CJAFilterBlock)(NSObject *object);
 
 @interface NSObject (Invocation)
 
-
-
 @property (nonatomic, strong, readonly) id proxy;
 
 @end

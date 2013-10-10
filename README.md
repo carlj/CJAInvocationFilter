@@ -53,7 +53,7 @@ TestObject *object = [TestObject new];
 ```
 
 ##Note
-You cannot use default methods from the classes e.g. description.
+You cannot call methods that are implemented in the [NSObject Protocol](https://developer.apple.com/library/mac/documentation/cocoa/reference/foundation/Protocols/NSObject_Protocol/Reference/NSObject.html) e.g. class, hash, superclass, description and so on.
 
 ##LICENSE
 Released under the [MIT LICENSE](LICENSE)
