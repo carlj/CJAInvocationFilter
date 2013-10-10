@@ -1,0 +1,3 @@
+language: objective-c
+
+script: xctool -project CJAInvocation.xcodeproj -scheme "CJAInvocation" build test -sdk iphonesimulator -arch i386
