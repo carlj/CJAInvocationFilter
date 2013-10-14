@@ -10,15 +10,15 @@
 
 typedef void(^CJAFilterBlock)(NSObject *object);
 
-@interface CJAProxy : NSObject
+@interface NSObject (Invocation)
+
+@property (nonatomic, strong, readonly) NSMutableDictionary *beforeFilters;
+@property (nonatomic, strong, readonly) NSMutableDictionary *afterFilters;
 
 - (void)setBeforeFilter:(CJAFilterBlock)filter forSelector:(SEL)selector;
 - (void)setAfterFilter:(CJAFilterBlock)filter forSelector:(SEL)selector;
 
-@end
-
-@interface NSObject (Invocation)
-
-@property (nonatomic, strong, readonly) id proxy;
+- (void)removeBeforeFilterForSelector:(SEL)selector;
+- (void)removeAfterFilterForSelector:(SEL)selector;
 
 @end

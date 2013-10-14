@@ -9,64 +9,121 @@
 #import "NSObject+Invocation.h"
 #import <objc/objc-runtime.h>
 
-static void *NSObjectProxyPropertyKey = &NSObjectProxyPropertyKey;
+static void *NSObjectAftersFiltersPropertyKey = &NSObjectAftersFiltersPropertyKey;
+static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFiltersPropertyKey;
 
-@interface CJAProxy ()
 
-@property (nonatomic, weak) NSObject *target;
-@property (nonatomic, strong) NSMutableDictionary *beforeFilters;
-@property (nonatomic, strong) NSMutableDictionary *afterFilters;
+@implementation NSObject (Invocation)
 
-@end
++ (void)load {
 
-@implementation CJAProxy
+  [self.class swizzleMethod: @selector(forwardInvocation:) withMethod: @selector(cja_forwardInvocation:)];
+}
 
-- (id)initWithTarget:(NSObject *)target {
++ (BOOL)swizzleMethod:(SEL)currentSelector withMethod:(SEL)newSelector {
   
-  self = [super init];
-  if (self) {
+  Method currentMethod = class_getInstanceMethod(self, currentSelector);
+  
+  Method newMethod = class_getInstanceMethod(self, newSelector);
+  
+  BOOL result = class_addMethod(self,
+                                currentSelector,
+                                class_getMethodImplementation(self, currentSelector),
+                                method_getTypeEncoding(currentMethod));
+  result =	class_addMethod(self,
+                            newSelector,
+                            class_getMethodImplementation(self, newSelector),
+                            method_getTypeEncoding(newMethod));
+  
+	method_exchangeImplementations( class_getInstanceMethod(self, currentSelector), class_getInstanceMethod(self, newSelector) );
+	
+  return YES;
+}
+
+- (NSMutableDictionary *)beforeFilters {
+  
+  NSMutableDictionary *beforeFilters = objc_getAssociatedObject(self, &NSObjectBeforeFilterFiltersPropertyKey);
+  if (!beforeFilters) {
+    beforeFilters = [NSMutableDictionary dictionary];
+    objc_setAssociatedObject(self, &NSObjectBeforeFilterFiltersPropertyKey, beforeFilters, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    self.target = target;
-    self.beforeFilters = [NSMutableDictionary dictionary];
-    self.afterFilters = [NSMutableDictionary dictionary];
   }
-  return self;
+  
+  return beforeFilters;
+}
+
+- (NSMutableDictionary *)afterFilters {
+  
+  NSMutableDictionary *afterFilters = objc_getAssociatedObject(self, &NSObjectAftersFiltersPropertyKey);
+  if (!afterFilters) {
+    afterFilters = [NSMutableDictionary dictionary];
+    objc_setAssociatedObject(self, &NSObjectAftersFiltersPropertyKey, afterFilters, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+  }
+  
+  return afterFilters;
 }
 
 - (void)setBeforeFilter:(CJAFilterBlock)filter forSelector:(SEL)selector {
+  
+  [self swizzleMethodsForSelector: selector];
+
   [self.beforeFilters setObject:filter forKey: NSStringFromSelector(selector)];
 }
 
 - (void)setAfterFilter:(CJAFilterBlock)filter forSelector:(SEL)selector {
+
+  [self swizzleMethodsForSelector: selector];
+
   [self.afterFilters setObject:filter forKey: NSStringFromSelector(selector)];
 }
 
-- (NSMethodSignature*)methodSignatureForSelector:(SEL)selector {
+- (void)removeBeforeFilterForSelector:(SEL)selector {
   
-  NSMethodSignature* signature = [super methodSignatureForSelector: selector];
-  if (!signature) {
-
-    signature = [self.target methodSignatureForSelector:selector];
-  }
-  return signature;
+  [self.beforeFilters removeObjectForKey: NSStringFromSelector(selector)];
+  
+  [self swizzleMethodsForSelector: selector];
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation {
+- (void)removeAfterFilterForSelector:(SEL)selector {
   
-  if (![self.target respondsToSelector: anInvocation.selector]) {
-    [super forwardInvocation: anInvocation];
+  [self.afterFilters removeObjectForKey: NSStringFromSelector(selector)];
+  
+  [self swizzleMethodsForSelector: selector];
+}
+
+- (void)swizzleMethodsForSelector:(SEL)selector {
+
+  NSString *selectorString = [NSString stringWithFormat:@"cja_%@", NSStringFromSelector(selector)];
+  
+  if (!self.beforeFilters[NSStringFromSelector(selector)] && !self.afterFilters[NSStringFromSelector(selector)]) {
+    [self.class swizzleMethod: NSSelectorFromString(selectorString) withMethod: selector];
+  }
+
+}
+
+
+- (void)cja_forwardInvocation:(NSInvocation *)anInvocation {
+
+  NSString *selectorString = NSStringFromSelector(anInvocation.selector);
+  if (![selectorString hasPrefix: @"cja_"]) {
+    NSString *tmpSelectorString = [@"cja_" stringByAppendingString: selectorString ];
+    
+    anInvocation.selector = NSSelectorFromString(tmpSelectorString);
+  }
+  
+  
+  if (![self respondsToSelector: anInvocation.selector]) {
     return;
   }
   
-  NSString *selectorString = NSStringFromSelector(anInvocation.selector);
-  
-  __weak typeof(NSObject) *weakTarget = self.target;
+  __weak typeof(NSObject) *weakTarget = self;
   CJAFilterBlock beforeFilter = self.beforeFilters[selectorString];
   if (beforeFilter) {
     beforeFilter(weakTarget);
   }
-  
-  [anInvocation invokeWithTarget: self.target];
+
+  [anInvocation invoke];
   
   CJAFilterBlock afterFilter = self.afterFilters[selectorString];
   if (afterFilter) {
@@ -74,25 +131,5 @@ static void *NSObjectProxyPropertyKey = &NSObjectProxyPropertyKey;
   }
   
 }
-
-
-@end
-
-@implementation NSObject (Invocation)
-
-- (CJAProxy *)proxy {
-  
-  CJAProxy *proxy = objc_getAssociatedObject(self, &NSObjectProxyPropertyKey);
-  if (!proxy) {
-    proxy = [[CJAProxy alloc] initWithTarget: self];
-    objc_setAssociatedObject(self, &NSObjectProxyPropertyKey, proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    
-  }
-  
-  return proxy;
-}
-
-
-
 
 @end

@@ -9,15 +9,15 @@
 #import <XCTest/XCTest.h>
 #import "NSObject+Invocation.h"
 
-@interface TestObject : NSObject
+@interface TestCaseObject : NSObject
 
-- (BOOL)doSomething;
+- (BOOL)doSomethingTest;
 
 @end
 
-@implementation TestObject
+@implementation TestCaseObject
 
-- (BOOL)doSomething {
+- (BOOL)doSomethingTest {
   return YES;
 }
 
@@ -25,7 +25,7 @@
 
 @interface CJAInvocationTests : XCTestCase
 
-@property (nonatomic, strong) TestObject *testObject;
+@property (nonatomic, strong) TestCaseObject *testObject;
 
 @end
 
@@ -34,7 +34,7 @@
 - (void)setUp {
   [super setUp];
   
-  self.testObject = [TestObject new];
+  self.testObject = [TestCaseObject new];
 }
 
 - (void)tearDown {
@@ -47,19 +47,19 @@
 - (void)testBeforeFilter {
   
   __block BOOL beforeFilterCalled = NO;
-  [self.testObject.proxy setBeforeFilter:^(NSObject *object){
+  [self.testObject setBeforeFilter:^(NSObject *object){
     beforeFilterCalled = YES;
   }
-                         forSelector:@selector(doSomething)];
+                         forSelector:@selector(doSomethingTest)];
   
   __block BOOL afterFilterCalled = NO;
-  [self.testObject.proxy setAfterFilter:^(NSObject *object){
+  [self.testObject setAfterFilter:^(NSObject *object){
     afterFilterCalled = YES;
   }
-                        forSelector:@selector(doSomething)];
+                        forSelector:@selector(doSomethingTest)];
   
-  
-  BOOL result = [self.testObject.proxy doSomething];
+  NSLog(@"test");
+  BOOL result = [self.testObject doSomethingTest];
   
   XCTAssertTrue(result, @"method dont called");
   XCTAssertTrue(beforeFilterCalled, @"beforeFilter dont called");
@@ -69,13 +69,13 @@
 - (void)testAfterFilter {
   
   __block BOOL beforeFilterCalled = NO;
-  [self.testObject.proxy setBeforeFilter:^(NSObject *object){
+  [self.testObject setBeforeFilter:^(NSObject *object){
     beforeFilterCalled = YES;
   }
-                             forSelector:@selector(doSomething)];
+                             forSelector:@selector(doSomethingTest)];
   
   
-  BOOL result = [self.testObject.proxy doSomething];
+  BOOL result = [self.testObject doSomethingTest];
   
   XCTAssertTrue(result, @"method dont called");
   XCTAssertTrue(beforeFilterCalled, @"beforeFilter dont called");
@@ -85,13 +85,13 @@
 - (void)testBothFilter {
   
   __block BOOL afterFilterCalled = NO;
-  [self.testObject.proxy setAfterFilter:^(NSObject *object){
+  [self.testObject setAfterFilter:^(NSObject *object){
     afterFilterCalled = YES;
   }
-                            forSelector:@selector(doSomething)];
+                            forSelector:@selector(doSomethingTest)];
   
   
-  BOOL result = [self.testObject.proxy doSomething];
+  BOOL result = [self.testObject doSomethingTest];
   
   XCTAssertTrue(result, @"method dont called");
   XCTAssertTrue(afterFilterCalled, @"afterFilter dont called");
@@ -101,7 +101,7 @@
   
   BOOL result = NO;
   @try {
-    [self.testObject.proxy testBothFilter];
+    [((id)self.testObject) testBothFilter];
   }
   @catch (NSException *exception) {
     result = YES;
@@ -110,5 +110,4 @@
   
   XCTAssertTrue(result, @"method called");
 }
-
 @end

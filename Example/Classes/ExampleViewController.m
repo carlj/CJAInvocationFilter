@@ -18,14 +18,14 @@
 @implementation TestObject
 
 - (void)doSomething {
-  NSLog(@"%s", __FUNCTION__);
+  NSLog(@"1232 %s", __FUNCTION__);
 }
 
 @end
 
 @interface ExampleViewController ()
 
-@property (nonatomic, strong) NSObject *object;
+@property (nonatomic, strong) TestObject *object;
 
 @end
 
@@ -35,18 +35,24 @@
   [super viewDidLoad];
 
   self.object = [TestObject new];
-  [self.object.proxy setBeforeFilter:^(NSObject *object){
-    NSLog(@"befor filter");
+  
+  [self.object setBeforeFilter:^(NSObject *object){
+    NSLog(@"before filter");
   }
                         forSelector:@selector(doSomething)];
   
-  [self.object.proxy setAfterFilter:^(NSObject *object){
+  [self.object setAfterFilter:^(NSObject *object){
     NSLog(@"after filter");
   }
                         forSelector:@selector(doSomething)];
   
   
-  [self.object.proxy doSomething];
+  [self.object doSomething];
+  
+  [self.object removeAfterFilterForSelector: @selector(doSomething)];
+  [self.object removeBeforeFilterForSelector: @selector(doSomething)];
+  
+  [self.object doSomething];
 }
 
 
