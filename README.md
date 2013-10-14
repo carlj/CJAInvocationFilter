@@ -37,19 +37,19 @@ First of all take a look at the [Example Project](Example/Classes/ExampleViewCon
 TestObject *object = [TestObject new];
 
 //add the filters to the proxy object
-[self.object.proxy setBeforeFilter: ^(NSObject *object){
+[self.object setBeforeFilter: ^(NSObject *object){
 	NSLog(@"before filter");
 }
                        forSelector: @selector(doSomething)];
 
-[self.object.proxy setAfterFilter: ^(NSObject *object){
+[self.object setAfterFilter: ^(NSObject *object){
 	NSLog(@"after filter");
 }
                       forSelector: @selector(doSomething)];
 
 
 //call the original method on the proxy
-[self.object.proxy doSomething];
+[self.object doSomething];
 ```
 
 ##Note
