@@ -20,5 +20,6 @@ typedef void(^CJAFilterBlock)(NSObject *object);
 
 - (void)removeBeforeFilterForSelector:(SEL)selector;
 - (void)removeAfterFilterForSelector:(SEL)selector;
+- (void)removeFiltersForSelector:(SEL)selector;
 
 @end

@@ -49,10 +49,10 @@
   
   [self.object doSomething];
   
-  [self.object removeAfterFilterForSelector: @selector(doSomething)];
-  [self.object removeBeforeFilterForSelector: @selector(doSomething)];
-  
+
+  [self.object removeFiltersForSelector: @selector(doSomething)];
   [self.object doSomething];
+ 
 }
 
 

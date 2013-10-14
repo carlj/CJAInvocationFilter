@@ -413,7 +413,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "Tests/Other Souces/CJAInvocationTests-Info.plist";
+				INFOPLIST_FILE = "Tests/Other Sources/CJAInvocationTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -434,7 +434,7 @@
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Example/Other Sources/CJAInvocation-Prefix.pch";
-				INFOPLIST_FILE = "Tests/Other Souces/CJAInvocationTests-Info.plist";
+				INFOPLIST_FILE = "Tests/Other Sources/CJAInvocationTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

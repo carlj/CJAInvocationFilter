@@ -38,27 +38,27 @@
 }
 
 - (void)tearDown {
-
+  
   self.testObject = nil;
   
   [super tearDown];
 }
 
-- (void)testBeforeFilter {
+
+- (void)testBothFilter{
   
   __block BOOL beforeFilterCalled = NO;
   [self.testObject setBeforeFilter:^(NSObject *object){
     beforeFilterCalled = YES;
   }
-                         forSelector:@selector(doSomethingTest)];
+                       forSelector:@selector(doSomethingTest)];
   
   __block BOOL afterFilterCalled = NO;
   [self.testObject setAfterFilter:^(NSObject *object){
     afterFilterCalled = YES;
   }
-                        forSelector:@selector(doSomethingTest)];
+                      forSelector:@selector(doSomethingTest)];
   
-  NSLog(@"test");
   BOOL result = [self.testObject doSomethingTest];
   
   XCTAssertTrue(result, @"method dont called");
@@ -72,23 +72,22 @@
   [self.testObject setBeforeFilter:^(NSObject *object){
     beforeFilterCalled = YES;
   }
-                             forSelector:@selector(doSomethingTest)];
+                       forSelector:@selector(doSomethingTest)];
   
   
   BOOL result = [self.testObject doSomethingTest];
   
   XCTAssertTrue(result, @"method dont called");
   XCTAssertTrue(beforeFilterCalled, @"beforeFilter dont called");
-  
 }
 
-- (void)testBothFilter {
+- (void)testBeforeFilter {
   
   __block BOOL afterFilterCalled = NO;
   [self.testObject setAfterFilter:^(NSObject *object){
     afterFilterCalled = YES;
   }
-                            forSelector:@selector(doSomethingTest)];
+                      forSelector:@selector(doSomethingTest)];
   
   
   BOOL result = [self.testObject doSomethingTest];
@@ -106,8 +105,8 @@
   @catch (NSException *exception) {
     result = YES;
   }
-
   
   XCTAssertTrue(result, @"method called");
 }
+
 @end

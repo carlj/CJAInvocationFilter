@@ -16,8 +16,23 @@ static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFilte
 @implementation NSObject (Invocation)
 
 + (void)load {
+  
+  SEL tmpSelector = NSSelectorFromString(@"cja_forwarded:");
+  Method newMethod = class_getInstanceMethod(self, tmpSelector);
 
-  [self.class swizzleMethod: @selector(forwardInvocation:) withMethod: @selector(cja_forwardInvocation:)];
+  if (!newMethod) {
+    
+    [self swizzleMethod: @selector(forwardInvocation:) withMethod: @selector(cja_forwardInvocation:)];
+
+    newMethod = class_getInstanceMethod(self, @selector(cja_forwardInvocation:));
+    class_addMethod(self,
+                    tmpSelector,
+                    class_getMethodImplementation(self, tmpSelector),
+                    method_getTypeEncoding(newMethod));
+
+  }
+  
+
 }
 
 + (BOOL)swizzleMethod:(SEL)currentSelector withMethod:(SEL)newSelector {
@@ -67,16 +82,23 @@ static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFilte
 - (void)setBeforeFilter:(CJAFilterBlock)filter forSelector:(SEL)selector {
   
   [self swizzleMethodsForSelector: selector];
-
+  
   [self.beforeFilters setObject:filter forKey: NSStringFromSelector(selector)];
 }
 
 - (void)setAfterFilter:(CJAFilterBlock)filter forSelector:(SEL)selector {
-
+  
   [self swizzleMethodsForSelector: selector];
-
+  
   [self.afterFilters setObject:filter forKey: NSStringFromSelector(selector)];
 }
+
+- (void)removeFiltersForSelector:(SEL)selector {
+  
+  [self removeBeforeFilterForSelector: selector];
+  [self removeAfterFilterForSelector: selector];
+}
+
 
 - (void)removeBeforeFilterForSelector:(SEL)selector {
   
@@ -93,18 +115,25 @@ static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFilte
 }
 
 - (void)swizzleMethodsForSelector:(SEL)selector {
-
-  NSString *selectorString = [NSString stringWithFormat:@"cja_%@", NSStringFromSelector(selector)];
   
-  if (!self.beforeFilters[NSStringFromSelector(selector)] && !self.afterFilters[NSStringFromSelector(selector)]) {
-    [self.class swizzleMethod: NSSelectorFromString(selectorString) withMethod: selector];
+  NSString *filterKey = NSStringFromSelector(selector);
+  
+  if (!self.beforeFilters[filterKey] && !self.afterFilters[filterKey]) {
+    
+    NSString *swizzleSelectorString = [NSString stringWithFormat:@"cja_%@", NSStringFromSelector(selector)];
+    SEL swizzleSelector = NSSelectorFromString(swizzleSelectorString);
+    
+    if (!class_getInstanceMethod(self.class, swizzleSelector)) {
+      [self.class swizzleMethod: swizzleSelector withMethod: selector];
+    }
+    
   }
-
+  
 }
 
-
 - (void)cja_forwardInvocation:(NSInvocation *)anInvocation {
-
+  NSLog(@"test");
+  
   NSString *selectorString = NSStringFromSelector(anInvocation.selector);
   if (![selectorString hasPrefix: @"cja_"]) {
     NSString *tmpSelectorString = [@"cja_" stringByAppendingString: selectorString ];
@@ -122,7 +151,7 @@ static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFilte
   if (beforeFilter) {
     beforeFilter(weakTarget);
   }
-
+  
   [anInvocation invoke];
   
   CJAFilterBlock afterFilter = self.afterFilters[selectorString];
