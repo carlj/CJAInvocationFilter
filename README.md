@@ -5,7 +5,7 @@ The category adapts the [before and after filter concept from Rails](http://guid
 [![Coverage Status](https://coveralls.io/repos/carlj/CJAInvocation/badge.png?branch=master)](https://coveralls.io/r/carlj/CJAInvocation?branch=master)
 
 ##Installation
-Just drag & drop the [`CJAInvocation.h`](CJAInvocation/CJAInvocation.h) and [`CJAInvocation.m`](CJAInvocation/CJAInvocation.m) to your project.
+Just drag & drop the [`NSObject+Invocation.h`](CJAInvocation/NSObject+Invocation.h) and [`NSObject+Invocation..m`](CJAInvocation/NSObject+Invocation.m) to your project.
 
 ##Example
 First of all take a look at the [Example Project](Example/Classes/ExampleViewController.m)
