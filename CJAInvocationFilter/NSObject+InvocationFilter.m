@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 #import <objc/objc-runtime.h>
 
 static void *NSObjectProxyPropertyKey = &NSObjectProxyPropertyKey;

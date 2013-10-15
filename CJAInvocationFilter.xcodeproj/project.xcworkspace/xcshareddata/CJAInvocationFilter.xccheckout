@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>3908CA7D-8B5E-417F-91E7-B058A451C4D4</string>
+	<string>AC85C1CF-E5BD-4C2D-9D8D-FB055E157593</string>
 	<key>IDESourceControlProjectName</key>
-	<string>CJAInvocation</string>
+	<string>CJAInvocationFilter</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>44568114-FD25-4C6B-9F59-E09B40D8C528</key>
+		<key>82B759B3-7B8B-4B99-87CA-6176344933FE</key>
 		<string>https://github.com/carlj/CJAInvocation.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CJAInvocation.xcodeproj/project.xcworkspace</string>
+	<string>CJAInvocationFilter.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>44568114-FD25-4C6B-9F59-E09B40D8C528</key>
+		<key>82B759B3-7B8B-4B99-87CA-6176344933FE</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,16 +25,16 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>44568114-FD25-4C6B-9F59-E09B40D8C528</string>
+	<string>82B759B3-7B8B-4B99-87CA-6176344933FE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>44568114-FD25-4C6B-9F59-E09B40D8C528</string>
+			<string>82B759B3-7B8B-4B99-87CA-6176344933FE</string>
 			<key>IDESourceControlWCCName</key>
-			<string>CJAInvocation</string>
+			<string>CJAInvocationFilter</string>
 		</dict>
 	</array>
 </dict>

@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 
 @interface TestObject : NSObject
 
