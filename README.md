@@ -5,7 +5,7 @@ The category adapts the [before and after filter concept from Rails](http://guid
 [![Coverage Status](https://coveralls.io/repos/carlj/CJAInvocationFilter/badge.png?branch=master)](https://coveralls.io/r/carlj/CJAInvocationFilter?branch=master)
 
 ##Installation
-Just drag & drop the [`NSObject+Invocation.h`](CJAInvocationFilter/NSObject+Invocation.h) and [`NSObject+Invocation..m`](CJAInvocationFilter/NSObject+Invocation.m) to your project.
+Just drag & drop the [`NSObject+InvocationFilter.h`](CJAInvocationFilter/NSObject+InvocationFilter.h) and [`NSObject+InvocationFilter.m`](CJAInvocationFilter/NSObject+InvocationFilter.m) to your project.
 
 ##Example
 First of all take a look at the [Example Project](Example/Classes/ExampleViewController.m)
@@ -13,7 +13,7 @@ First of all take a look at the [Example Project](Example/Classes/ExampleViewCon
 ##Usage
 ``` objc
 //import the category
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 ```
 
 ``` objc
