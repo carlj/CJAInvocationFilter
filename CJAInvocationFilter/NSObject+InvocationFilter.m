@@ -6,14 +6,14 @@
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 #import <objc/objc-runtime.h>
 
 static void *NSObjectAftersFiltersPropertyKey = &NSObjectAftersFiltersPropertyKey;
 static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFiltersPropertyKey;
 
 
-@implementation NSObject (Invocation)
+@implementation NSObject (InvocationFilter)
 
 + (void)load {
   
@@ -132,7 +132,6 @@ static void *NSObjectBeforeFilterFiltersPropertyKey = &NSObjectBeforeFilterFilte
 }
 
 - (void)cja_forwardInvocation:(NSInvocation *)anInvocation {
-  NSLog(@"test");
   
   NSString *selectorString = NSStringFromSelector(anInvocation.selector);
   if (![selectorString hasPrefix: @"cja_"]) {

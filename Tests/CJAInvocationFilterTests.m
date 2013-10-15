@@ -1,13 +1,13 @@
 //
-//  CJAInvocationTests.m
-//  CJAInvocationTests
+//  CJAInvocationFilterTests.m
+//  CJAInvocationFilterTests
 //
-//  Created by Carl Jahn on 10.10.13.
+//  Created by Carl Jahn on 15.10.13.
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 
 @interface TestCaseObject : NSObject
 

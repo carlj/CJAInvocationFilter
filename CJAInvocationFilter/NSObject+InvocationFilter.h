@@ -10,7 +10,7 @@
 
 typedef void(^CJAFilterBlock)(NSObject *object);
 
-@interface NSObject (Invocation)
+@interface NSObject (InvocationFilter)
 
 @property (nonatomic, strong, readonly) NSMutableDictionary *beforeFilters;
 @property (nonatomic, strong, readonly) NSMutableDictionary *afterFilters;

@@ -1,13 +1,14 @@
 //
 //  AppDelegate.m
-//  CJAInvocation
+//  CJAInvocationFilter
 //
-//  Created by Carl Jahn on 10.10.13.
+//  Created by Carl Jahn on 15.10.13.
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import "ExampleViewController.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -20,5 +21,6 @@
   
   return YES;
 }
+
 
 @end

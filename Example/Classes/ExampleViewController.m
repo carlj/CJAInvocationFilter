@@ -1,13 +1,13 @@
 //
 //  ViewController.m
-//  CJAInvocation
+//  CJAInvocationFilter
 //
-//  Created by Carl Jahn on 10.10.13.
+//  Created by Carl Jahn on 15.10.13.
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
 #import "ExampleViewController.h"
-#import "NSObject+Invocation.h"
+#import "NSObject+InvocationFilter.h"
 
 @interface TestObject : NSObject
 
@@ -33,27 +33,28 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   self.object = [TestObject new];
   
   [self.object setBeforeFilter:^(NSObject *object){
     NSLog(@"before filter");
   }
-                        forSelector:@selector(doSomething)];
+                   forSelector:@selector(doSomething)];
   
   [self.object setAfterFilter:^(NSObject *object){
     NSLog(@"after filter");
   }
-                        forSelector:@selector(doSomething)];
+                  forSelector:@selector(doSomething)];
   
   
   [self.object doSomething];
   
-
+  
   [self.object removeFiltersForSelector: @selector(doSomething)];
   [self.object doSomething];
- 
+  
 }
 
 
 @end
+

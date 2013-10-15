@@ -1,8 +1,8 @@
 //
 //  AppDelegate.h
-//  CJAInvocation
+//  CJAInvocationFilter
 //
-//  Created by Carl Jahn on 10.10.13.
+//  Created by Carl Jahn on 15.10.13.
 //  Copyright (c) 2013 Carl Jahn. All rights reserved.
 //
 
